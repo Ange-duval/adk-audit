@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_audit_checklist_item_list" model="ir.ui.view">
+        <field name="name">audit.checklist.item.list</field>
+        <field name="model">audit.checklist.item</field>
+        <field name="arch" type="xml">
+            <list string="Points à Auditer" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="audit_type"/>
+                <field name="department_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_audit_checklist_item_form" model="ir.ui.view">
+        <field name="name">audit.checklist.item.form</field>
+        <field name="model">audit.checklist.item</field>
+        <field name="arch" type="xml">
+            <form string="Point à Auditer">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="audit_type" widget="radio" options="{'horizontal': true}"/>
+                        <field name="department_id"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_audit_checklist_item_search" model="ir.ui.view">
+        <field name="name">audit.checklist.item.search</field>
+        <field name="model">audit.checklist.item</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Points à Auditer">
+                <field name="name"/>
+                <field name="department_id"/>
+                <filter string="Métier" name="metier" domain="[('audit_type', '=', 'metier')]"/>
+                <filter string="QHSE" name="qhse" domain="[('audit_type', '=', 'qhse')]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Type d'audit" name="group_type" context="{'group_by': 'audit_type'}"/>
+                    <filter string="Service" name="group_department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_audit_checklist_item" model="ir.actions.act_window">
+        <field name="name">Points à Auditer (Catalogue)</field>
+        <field name="res_model">audit.checklist.item</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Créez les points/documents types à contrôler lors des audits</p></field>
+    </record>
+
+</odoo>

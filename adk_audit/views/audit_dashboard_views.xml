@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ Graph : Anomalies par gravité ============ -->
+    <record id="view_audit_anomaly_graph_severity" model="ir.ui.view">
+        <field name="name">audit.anomaly.graph.severity</field>
+        <field name="model">audit.anomaly</field>
+        <field name="arch" type="xml">
+            <graph string="Anomalies par gravité" type="bar">
+                <field name="severity"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_audit_anomaly_pivot_state" model="ir.ui.view">
+        <field name="name">audit.anomaly.pivot.state</field>
+        <field name="model">audit.anomaly</field>
+        <field name="arch" type="xml">
+            <pivot string="Anomalies : Ouvertes vs Résolues">
+                <field name="state" type="row"/>
+                <field name="severity" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_dashboard_anomaly_severity" model="ir.actions.act_window">
+        <field name="name">Anomalies par Gravité</field>
+        <field name="res_model">audit.anomaly</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="view_id" ref="view_audit_anomaly_graph_severity"/>
+    </record>
+
+    <record id="action_dashboard_anomaly_state" model="ir.actions.act_window">
+        <field name="name">Anomalies : Ouvertes vs Résolues</field>
+        <field name="res_model">audit.anomaly</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="view_audit_anomaly_pivot_state"/>
+    </record>
+
+    <!-- ============ Graph : Taux de conformité ============ -->
+    <record id="action_dashboard_conformity" model="ir.actions.act_window">
+        <field name="name">Taux de Conformité par Service</field>
+        <field name="res_model">audit.session</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="view_id" ref="view_audit_session_graph"/>
+    </record>
+
+    <!-- ============ Suivi des Actions / délais ============ -->
+    <record id="action_dashboard_actions_late" model="ir.actions.act_window">
+        <field name="name">Suivi des Délais - Mesures Correctives</field>
+        <field name="res_model">audit.action</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="context">{'search_default_late': 1}</field>
+    </record>
+
+    <!-- ============ Vue Kanban "Cockpit" (landing dashboard) ============ -->
+    <record id="view_audit_session_dashboard_kanban" model="ir.ui.view">
+        <field name="name">audit.session.dashboard.kanban</field>
+        <field name="model">audit.session</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard" create="0">
+                <field name="name"/>
+                <field name="audit_type"/>
+                <field name="conformity_rate"/>
+                <field name="anomaly_open_count"/>
+                <field name="action_late_count"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-3">
+                            <div class="d-flex justify-content-between">
+                                <strong><field name="name"/></strong>
+                                <field name="audit_type" widget="badge"/>
+                            </div>
+                            <div><field name="title"/></div>
+                            <div class="mt-2">
+                                <span>Conformité : </span>
+                                <field name="conformity_rate" widget="percentage"/>
+                            </div>
+                            <div t-attf-class="{{record.anomaly_open_count.raw_value > 0 ? 'text-danger' : 'text-success'}}">
+                                Anomalies ouvertes : <field name="anomaly_open_count"/>
+                            </div>
+                            <div t-attf-class="{{record.action_late_count.raw_value > 0 ? 'text-danger' : ''}}">
+                                Actions en retard : <field name="action_late_count"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_audit_dashboard_home" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord Audits</field>
+        <field name="res_model">audit.session</field>
+        <field name="view_mode">kanban,list,graph,pivot,form</field>
+        <field name="view_id" ref="view_audit_session_dashboard_kanban"/>
+        <field name="context">{'search_default_in_progress': 1}</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Aucun audit en cours pour le moment</p></field>
+    </record>
+
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_adk_audit_root" name="ADK-AUDIT" sequence="10"
+              web_icon="adk_audit,static/description/icon.png"
+              groups="group_audit_admin,group_audit_metier,group_audit_qhse,group_audit_audited"/>
+
+    <!-- ============ TABLEAU DE BORD ============ -->
+    <menuitem id="menu_audit_dashboard" name="Tableau de Bord" parent="menu_adk_audit_root" sequence="10"
+              groups="group_audit_admin,group_audit_metier,group_audit_qhse"/>
+
+    <menuitem id="menu_audit_dashboard_home" name="Cockpit Audits" parent="menu_audit_dashboard"
+              action="action_audit_dashboard_home" sequence="10"/>
+    <menuitem id="menu_audit_dashboard_conformity" name="Taux de Conformité" parent="menu_audit_dashboard"
+              action="action_dashboard_conformity" sequence="20"/>
+    <menuitem id="menu_audit_dashboard_severity" name="Anomalies par Gravité" parent="menu_audit_dashboard"
+              action="action_dashboard_anomaly_severity" sequence="30"/>
+    <menuitem id="menu_audit_dashboard_state" name="Anomalies Ouvertes / Résolues" parent="menu_audit_dashboard"
+              action="action_dashboard_anomaly_state" sequence="40"/>
+    <menuitem id="menu_audit_dashboard_late" name="Suivi des Délais (Actions)" parent="menu_audit_dashboard"
+              action="action_dashboard_actions_late" sequence="50"/>
+
+    <!-- ============ AUDIT METIER ============ -->
+    <menuitem id="menu_audit_metier_root" name="Audit Métier" parent="menu_adk_audit_root" sequence="20"
+              groups="group_audit_admin,group_audit_metier"/>
+    <menuitem id="menu_audit_metier_sessions" name="Fiches Audit Métier" parent="menu_audit_metier_root"
+              action="action_audit_session_metier" sequence="10"/>
+
+    <!-- ============ AUDIT QHSE ============ -->
+    <menuitem id="menu_audit_qhse_root" name="Audit QHSE" parent="menu_adk_audit_root" sequence="30"
+              groups="group_audit_admin,group_audit_qhse"/>
+    <menuitem id="menu_audit_qhse_sessions" name="Fiches Audit QHSE" parent="menu_audit_qhse_root"
+              action="action_audit_session_qhse" sequence="10"/>
+
+    <!-- ============ TOUS LES AUDITS (Admin) ============ -->
+    <menuitem id="menu_audit_all_sessions" name="Tous les Audits" parent="menu_adk_audit_root"
+              action="action_audit_session_all" sequence="15" groups="group_audit_admin"/>
+
+    <!-- ============ ANOMALIES & ACTIONS ============ -->
+    <menuitem id="menu_audit_anomalies" name="Anomalies" parent="menu_adk_audit_root"
+              action="action_audit_anomaly" sequence="40"
+              groups="group_audit_admin,group_audit_metier,group_audit_qhse,group_audit_audited"/>
+    <menuitem id="menu_audit_actions" name="Actions / Mesures" parent="menu_adk_audit_root"
+              action="action_audit_action" sequence="50"
+              groups="group_audit_admin,group_audit_metier,group_audit_qhse,group_audit_audited"/>
+
+    <!-- ============ REFERENTIELS (Services, Sites, Points à auditer) ============ -->
+    <menuitem id="menu_audit_config" name="Référentiels" parent="menu_adk_audit_root" sequence="90"
+              groups="group_audit_admin,group_audit_metier,group_audit_qhse"/>
+    <menuitem id="menu_audit_config_departments" name="Services" parent="menu_audit_config"
+              action="action_audit_department" sequence="5"/>
+    <menuitem id="menu_audit_config_locations" name="Sites / Localisations" parent="menu_audit_config"
+              action="action_audit_location" sequence="10"/>
+    <menuitem id="menu_audit_config_checklist" name="Points à Auditer (Catalogue)" parent="menu_audit_config"
+              action="action_audit_checklist_item" sequence="20"/>
+
+</odoo>

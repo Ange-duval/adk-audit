@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_audit_location_list" model="ir.ui.view">
+        <field name="name">audit.location.list</field>
+        <field name="model">audit.location</field>
+        <field name="arch" type="xml">
+            <list string="Localisations / Sites">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="company_id"/>
+                <field name="address"/>
+                <field name="responsible_id"/>
+                <field name="personnel_count" string="Effectif"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_audit_location_form" model="ir.ui.view">
+        <field name="name">audit.location.form</field>
+        <field name="model">audit.location</field>
+        <field name="arch" type="xml">
+            <form string="Localisation / Site">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Ex: Usine A, Bureaux Étage 2..."/></h1>
+                    </div>
+                    <group>
+                        <group string="Rattachement">
+                            <field name="company_id"/>
+                            <field name="department_id"/>
+                            <field name="address"/>
+                        </group>
+                        <group string="Responsabilité">
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Personnel affecté">
+                            <field name="personnel_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="job_id"/>
+                                    <field name="work_email"/>
+                                    <field name="work_phone"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Notes sur ce site..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_audit_location" model="ir.actions.act_window">
+        <field name="name">Sites / Localisations</field>
+        <field name="res_model">audit.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Créez un site et renseignez son responsable et son personnel</p></field>
+    </record>
+
+</odoo>
