@@ -3,19 +3,22 @@
     'name': "ADK-AUDIT",
     'version': '18.0.1.0.0',
     'category': 'Services/Audit',
-    'summary': "Gestion des audits Métier et QHSE avec dashboard et rapports",
+    'summary': "Audit management, checklists, non-conformities and reports",
     'description': """
 ADK-AUDIT
 =========
-Module de gestion des audits internes et externes.
+Professional audit management for Odoo 18.
 
-* Segmentation stricte Audit Métier (Finance/Gestion) et Audit QHSE.
-* Fiches d'audit, points de contrôle (checklist), anomalies, plans d'action.
-* Droits d'accès par profil (Admin, Auditeur Métier, Agent QHSE, Audité).
-* Dashboard intégré (taux de conformité, anomalies par gravité, suivi délais).
-* Génération de rapport d'audit PDF professionnel.
+* Internal and external audit management.
+* Business and QHSE audit workflows.
+* Audit sessions, checklists, findings and action plans.
+* Non-conformities and corrective actions.
+* Role-based access for administrators, auditors and audited users.
+* Dashboard for compliance, findings and deadlines.
+* Professional PDF audit reports.
 """,
-    'author': "ADK",
+    'author': "Kambeu Henang Ange Duval",
+    'support': 'duvalkambeu61@gmail.com',
     'license': 'LGPL-3',
     'depends': ['base', 'mail', 'hr', 'web'],
     'data': [
@@ -34,7 +37,13 @@ Module de gestion des audits internes et externes.
         'report/audit_report_templates.xml',
         'report/audit_report.xml',
     ],
+    'images': [
+        'static/description/banner.png',
+        'static/description/icon.png',
+    ],
     'installable': True,
     'application': True,
+    'auto_install': False,
+}
     'auto_install': False,
 }
