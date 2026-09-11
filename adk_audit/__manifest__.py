@@ -45,5 +45,3 @@ Professional audit management for Odoo 18.
     'application': True,
     'auto_install': False,
 }
-    'auto_install': False,
-}
