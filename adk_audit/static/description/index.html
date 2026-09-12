@@ -1,73 +1,440 @@
-<section class="container">
-    <div class="row">
-        <div class="col-12 text-center">
-            <img src="banner.png" alt="ADK-AUDIT for Odoo 18" class="img-fluid"/>
-        </div>
+<section style="font-family: 'Helvetica Neue', Arial, sans-serif; color:#2b2b2b; max-width:1100px; margin:0 auto; line-height:1.6;">
+
+  <!-- HERO -->
+  <div style="text-align:center; padding:10px 0 30px 0;">
+    <img src="banner.png"
+         alt="ADK-AUDIT pour Odoo 18"
+         style="width:100%; max-width:1000px; border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,0.12);"/>
+  </div>
+
+  <!-- BADGES -->
+  <div style="text-align:center; margin-bottom:35px;">
+    <span style="display:inline-block; background:#1B3B6F; color:#fff; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:600; margin:4px;">Odoo 18</span>
+    <span style="display:inline-block; background:#28a745; color:#fff; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:600; margin:4px;">Fiable</span>
+    <span style="display:inline-block; background:#F4A300; color:#fff; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:600; margin:4px;">Acc&#232;s par r&#244;le</span>
+    <span style="display:inline-block; background:#6c63ff; color:#fff; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:600; margin:4px;">Simple d'utilisation</span>
+  </div>
+
+
+  <!-- USER ROLES -->
+  <div style="margin:0 auto 50px auto; padding:28px 30px; border:1px solid #e6d9b8; border-radius:14px; background:#fffdf8;">
+
+    <div style="text-align:center; margin-bottom:28px;">
+      <h2 style="font-size:24px; color:#1B3B6F; margin:0 0 8px 0;">
+        R&#244;les utilisateurs et niveaux d'acc&#232;s
+      </h2>
+
+      <p style="font-size:15px; color:#666; margin:0 auto; max-width:800px;">
+        ADK-AUDIT organise les acc&#232;s selon les responsabilit&#233;s de chaque utilisateur
+        afin de garantir un fonctionnement clair et ma&#238;tris&#233; du processus d'audit.
+      </p>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <h2>ADK-AUDIT</h2>
-            <p>
-                ADK-AUDIT is an Odoo 18 audit management module designed to structure
-                internal and external audits, control points, findings, corrective actions
-                and professional reporting.
-            </p>
-        </div>
-    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:0; justify-content:center;">
 
+      <!-- ROLE 1 -->
+      <div style="flex:1 1 240px; max-width:280px; background:#fff; border:1px solid #e6d9b8; border-radius:12px; padding:22px; margin:5px;">
+        <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 9px 0;">
+          Administrateur Audit
+        </h3>
 
-
-    <!-- USER ROLES & ACCESS RIGHTS -->
-    <div style="background:#FFF9EC;border:1px solid #F0DFAE;border-radius:14px;padding:30px 28px;margin:42px 0 58px 0;">
-        <h2 style="text-align:center;font-size:24px;color:#8A5A00;margin:0 0 8px 0;">User Roles &amp; Access Rights — Please Read Before Purchasing</h2>
-        <p style="text-align:center;font-size:15px;color:#6A5A2E;margin:0 auto 24px auto;max-width:820px;">
-            ADK-AUDIT includes four distinct user roles. Each role is designed for a specific responsibility in the audit process. Please review the permissions below before purchasing.
+        <p style="font-size:14px; color:#555; margin:0;">
+          Gestion et administration globale du module ADK-AUDIT selon les droits configur&#233;s.
         </p>
-        <div style="display:flex;flex-wrap:wrap;gap:18px;justify-content:center;">
-            <div style="flex:1 1 360px;max-width:500px;background:#ffffff;border:1px solid #EFE1B8;border-radius:12px;padding:22px;">
-                <h3 style="font-size:18px;color:#1B3B6F;margin:0 0 9px 0;">Audit Administrator</h3>
-                <p style="font-size:14px;color:#59636B;margin:0;">Full access to ADK-AUDIT. The administrator can manage audit configuration and reference data, access all Business and QHSE audits, manage audit records and corrective actions, and access all dashboards and reports.</p>
-            </div>
-            <div style="flex:1 1 360px;max-width:500px;background:#ffffff;border:1px solid #EFE1B8;border-radius:12px;padding:22px;">
-                <h3 style="font-size:18px;color:#1B3B6F;margin:0 0 9px 0;">Business Auditor</h3>
-                <p style="font-size:14px;color:#59636B;margin:0;">Access to Business audits only. The auditor can create and manage Business audit sessions, checklist items, findings, evidence and corrective actions. Reference data can be created and edited, but reference records cannot be deleted. QHSE audits are not accessible.</p>
-            </div>
-            <div style="flex:1 1 360px;max-width:500px;background:#ffffff;border:1px solid #EFE1B8;border-radius:12px;padding:22px;">
-                <h3 style="font-size:18px;color:#1B3B6F;margin:0 0 9px 0;">QHSE Agent / Manager</h3>
-                <p style="font-size:14px;color:#59636B;margin:0;">Access to QHSE audits only. The QHSE user can create and manage QHSE audit sessions, checklist items, findings, evidence and corrective actions. Reference data can be created and edited, but reference records cannot be deleted. Business audits are not accessible.</p>
-            </div>
-            <div style="flex:1 1 360px;max-width:500px;background:#ffffff;border:1px solid #EFE1B8;border-radius:12px;padding:22px;">
-                <h3 style="font-size:18px;color:#1B3B6F;margin:0 0 9px 0;">Audited Person / Service Manager</h3>
-                <p style="font-size:14px;color:#59636B;margin:0;">Read-only access to the findings and corrective actions assigned to the audited person. The audited user can review relevant anomalies, attached evidence and corrective-action information, but cannot create, modify or delete audit data.</p>
-            </div>
-        </div>
+      </div>
+
+      <!-- ROLE 2 -->
+      <div style="flex:1 1 240px; max-width:280px; background:#fff; border:1px solid #e6d9b8; border-radius:12px; padding:22px; margin:5px;">
+        <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 9px 0;">
+          Auditeur M&#233;tier
+        </h3>
+
+        <p style="font-size:14px; color:#555; margin:0;">
+          R&#233;alisation et suivi des audits m&#233;tier, contr&#244;le des points d'audit et documentation des constats.
+        </p>
+      </div>
+
+      <!-- ROLE 3 -->
+      <div style="flex:1 1 240px; max-width:280px; background:#fff; border:1px solid #e6d9b8; border-radius:12px; padding:22px; margin:5px;">
+        <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 9px 0;">
+          Agent / Responsable QHSE
+        </h3>
+
+        <p style="font-size:14px; color:#555; margin:0;">
+          Suivi des audits QHSE, des anomalies, des actions correctives et de la conformit&#233;.
+        </p>
+      </div>
+
+      <!-- ROLE 4 -->
+      <div style="flex:1 1 240px; max-width:280px; background:#fff; border:1px solid #e6d9b8; border-radius:12px; padding:22px; margin:5px;">
+        <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 9px 0;">
+          Audité (Responsable Service)
+        </h3>
+
+        <p style="font-size:14px; color:#555; margin:0;">
+          Consultation des &#233;l&#233;ments li&#233;s &#224; son service et suivi des constats et actions qui lui sont attribu&#233;s.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- INTRO -->
+  <div style="text-align:center; max-width:820px; margin:0 auto 50px auto;">
+
+    <h1 style="font-size:30px; color:#1B3B6F; margin-bottom:10px;">
+      Pilotez tous vos audits depuis une seule application
+    </h1>
+
+    <p style="font-size:16px; color:#555;">
+      ADK-AUDIT structure vos audits internes et externes &#8212; m&#233;tier et QHSE &#8212; du checklist
+      jusqu'&#224; la cl&#244;ture. Les auditeurs enregistrent leurs constats avec preuves photo, les
+      actions correctives sont suivies jusqu'&#224; leur r&#233;solution, et la direction dispose d'un
+      tableau de bord de conformit&#233; en temps r&#233;el.
+    </p>
+
+  </div>
+
+
+  <!-- FEATURES -->
+  <h2 style="text-align:center; font-size:24px; color:#1B3B6F; margin-bottom:30px;">
+    Fonctionnalit&#233;s principales
+  </h2>
+
+  <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:60px;">
+
+    <div style="flex:1 1 260px; max-width:320px; background:#f7f9fc; border-radius:10px; padding:22px; border:1px solid #e6ebf2;">
+      <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 8px 0;">
+        Tableau de bord de conformit&#233;
+      </h3>
+      <p style="font-size:14px; color:#555; margin:0;">
+        KPI en temps r&#233;el : taux de conformit&#233;, anomalies par gravit&#233;, anomalies ouvertes/r&#233;solues, suivi des d&#233;lais.
+      </p>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <h3>Key features</h3>
-            <ul>
-                <li>Business and QHSE audit workflows</li>
-                <li>Audit sessions and checklists</li>
-                <li>Findings and non-conformities</li>
-                <li>Corrective and action plans</li>
-                <li>Role-based access control</li>
-                <li>Compliance and deadline dashboard</li>
-                <li>Professional PDF audit reports</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <h3>Designed for Odoo 18</h3>
-            <p>
-                The module integrates with Odoo's standard environment and uses
-                the configured access rights and reporting mechanisms.
-            </p>
-            <h3>Support</h3>
-            <p>
-                Developer: <strong>Kambeu Henang Ange Duval</strong><br/>
-                Email: <a href="mailto:duvalkambeu61@gmail.com">duvalkambeu61@gmail.com</a>
-            </p>
-        </div>
+    <div style="flex:1 1 260px; max-width:320px; background:#f7f9fc; border-radius:10px; padding:22px; border:1px solid #e6ebf2;">
+      <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 8px 0;">
+        Audits M&#233;tier et QHSE
+      </h3>
+      <p style="font-size:14px; color:#555; margin:0;">
+        Deux types d'audit pr&#234;ts &#224; l'emploi, chacun avec sa checklist de r&#233;f&#233;rence et son workflow : Brouillon, En cours, Cl&#244;tur&#233;.
+      </p>
     </div>
+
+    <div style="flex:1 1 260px; max-width:320px; background:#f7f9fc; border-radius:10px; padding:22px; border:1px solid #e6ebf2;">
+      <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 8px 0;">
+        Checklists r&#233;utilisables
+      </h3>
+      <p style="font-size:14px; color:#555; margin:0;">
+        Constituez un catalogue de points &#224; auditer par type d'audit et par service, et chargez-le en un clic sur chaque nouvel audit.
+      </p>
+    </div>
+
+    <div style="flex:1 1 260px; max-width:320px; background:#f7f9fc; border-radius:10px; padding:22px; border:1px solid #e6ebf2;">
+      <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 8px 0;">
+        Anomalies avec preuves photo
+      </h3>
+      <p style="font-size:14px; color:#555; margin:0;">
+        Chaque non-conformit&#233; devient une fiche anomalie : gravit&#233;, description, photos, et statut (Ouverte, En cours, R&#233;solue).
+      </p>
+    </div>
+
+    <div style="flex:1 1 260px; max-width:320px; background:#f7f9fc; border-radius:10px; padding:22px; border:1px solid #e6ebf2;">
+      <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 8px 0;">
+        Plans d'actions correctives
+      </h3>
+      <p style="font-size:14px; color:#555; margin:0;">
+        Chaque anomalie est reli&#233;e &#224; un plan d'action avec un responsable et une date limite ; les retards sont d&#233;tect&#233;s automatiquement.
+      </p>
+    </div>
+
+    <div style="flex:1 1 260px; max-width:320px; background:#f7f9fc; border-radius:10px; padding:22px; border:1px solid #e6ebf2;">
+      <h3 style="font-size:17px; color:#1B3B6F; margin:0 0 8px 0;">
+        Rapports PDF professionnels
+      </h3>
+      <p style="font-size:14px; color:#555; margin:0;">
+        G&#233;n&#233;rez un rapport d'audit propre directement depuis la fiche d'audit, pr&#234;t &#224; &#234;tre partag&#233;.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- PROCESS / HOW IT WORKS -->
+  <h2 style="text-align:center; font-size:24px; color:#1B3B6F; margin-bottom:8px;">
+    Comment &#231;a marche ?
+  </h2>
+
+  <p style="text-align:center; color:#666; font-size:15px; margin-bottom:50px;">
+    Un processus simple en 5 &#233;tapes, de la configuration au pilotage de la conformit&#233;
+  </p>
+
+
+  <!-- STEP 1 -->
+  <div style="margin-bottom:60px;">
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; justify-content:center;">
+      <span style="background:#1B3B6F; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;">
+        1
+      </span>
+
+      <h3 style="font-size:21px; color:#1B3B6F; margin:0;">
+        Configurez vos r&#233;f&#233;rentiels
+      </h3>
+    </div>
+
+    <p style="font-size:15px; color:#555; max-width:800px; margin:0 auto 20px auto; text-align:center;">
+      D&#233;clarez vos sites/localisations (avec le responsable et le personnel affect&#233;), vos
+      services, et constituez votre catalogue de points &#224; auditer par type d'audit. C'est la
+      base r&#233;utilisable pour tous vos futurs audits.
+    </p>
+
+    <div style="text-align:center;">
+      <img src="screenshots/site_localisation_form.png"
+           alt="Fiche site / localisation"
+           style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+      <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+        Fiche d'un site (localisation) : entreprise, service rattach&#233;, responsable et personnel affect&#233;.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- STEP 2 -->
+  <div style="margin-bottom:60px;">
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; justify-content:center;">
+      <span style="background:#1B3B6F; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;">
+        2
+      </span>
+
+      <h3 style="font-size:21px; color:#1B3B6F; margin:0;">
+        Planifiez l'audit et chargez la checklist
+      </h3>
+    </div>
+
+    <p style="font-size:15px; color:#555; max-width:800px; margin:0 auto 20px auto; text-align:center;">
+      Cr&#233;ez un audit, choisissez son type (M&#233;tier ou QHSE), assignez les auditeurs et les
+      dates, puis chargez la checklist standard en un clic. Parcourez chaque point et
+      marquez-le conforme ou non-conforme.
+    </p>
+
+    <div style="text-align:center;">
+      <img src="screenshots/audit_en_cours_checklist.png"
+           alt="Audit en cours avec checklist"
+           style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+      <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+        Un audit &#171; En cours &#187; avec sa checklist de points &#224; contr&#244;ler et le statut de chaque point.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- STEP 3 -->
+  <div style="margin-bottom:60px;">
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; justify-content:center;">
+      <span style="background:#1B3B6F; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;">
+        3
+      </span>
+
+      <h3 style="font-size:21px; color:#1B3B6F; margin:0;">
+        Documentez les anomalies avec preuves photo
+      </h3>
+    </div>
+
+    <p style="font-size:15px; color:#555; max-width:800px; margin:0 auto 20px auto; text-align:center;">
+      Chaque point non-conforme g&#233;n&#232;re automatiquement une anomalie. Renseignez la gravit&#233;, une
+      description claire, et joignez des photos comme preuve &#8212; tout ce dont un auditeur a besoin
+      pour justifier la non-conformit&#233;.
+    </p>
+
+    <div style="text-align:center;">
+      <img src="screenshots/anomalie_preuve_photo.png"
+           alt="Anomalie avec preuve photo"
+           style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+      <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+        Fiche anomalie : gravit&#233; Critique, description du constat, photo jointe en preuve, et plan d'action li&#233;.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- STEP 4 -->
+  <div style="margin-bottom:60px;">
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; justify-content:center;">
+      <span style="background:#1B3B6F; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;">
+        4
+      </span>
+
+      <h3 style="font-size:21px; color:#1B3B6F; margin:0;">
+        Suivez les actions correctives jusqu'&#224; leur cl&#244;ture
+      </h3>
+    </div>
+
+    <p style="font-size:15px; color:#555; max-width:800px; margin:0 auto 20px auto; text-align:center;">
+      Chaque anomalie est reli&#233;e &#224; un plan d'action avec un responsable et une date limite.
+      Les actions en retard sont signal&#233;es automatiquement, pour ne rien laisser de c&#244;t&#233;.
+    </p>
+
+    <div style="text-align:center;">
+      <img src="screenshots/actions_mesures_liste.png"
+           alt="Liste des actions et mesures correctives"
+           style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+      <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+        Vue liste des actions correctives : anomalie li&#233;e, responsable, date limite et statut.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- STEP 5 -->
+  <div style="margin-bottom:60px;">
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; justify-content:center;">
+      <span style="background:#1B3B6F; color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;">
+        5
+      </span>
+
+      <h3 style="font-size:21px; color:#1B3B6F; margin:0;">
+        Cl&#244;turez l'audit et pilotez la conformit&#233;
+      </h3>
+    </div>
+
+    <p style="font-size:15px; color:#555; max-width:800px; margin:0 auto 20px auto; text-align:center;">
+      Une fois toutes les anomalies r&#233;solues, cl&#244;turez l'audit : le taux de conformit&#233; se met
+      &#224; jour automatiquement. Le tableau de bord donne ensuite &#224; la direction une vision en
+      temps r&#233;el de la conformit&#233;, des anomalies par gravit&#233; et des d&#233;lais, sur tous les audits.
+    </p>
+
+    <div style="text-align:center;">
+      <img src="screenshots/audit_cloture_conforme.png"
+           alt="Audit cl&#244;tur&#233;, 100 pour cent conforme"
+           style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+      <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+        Audit cl&#244;tur&#233; avec un taux de conformit&#233; de 100% : toutes les anomalies ont &#233;t&#233; r&#233;solues.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- MORE SCREENSHOTS -->
+  <h2 style="text-align:center; font-size:24px; color:#1B3B6F; margin-bottom:10px;">
+    Aper&#231;u compl&#233;mentaire
+  </h2>
+
+  <p style="text-align:center; color:#666; font-size:15px; margin-bottom:40px;">
+    D'autres &#233;crans de l'application, pour voir l'ensemble du fonctionnement
+  </p>
+
+
+  <div style="margin-bottom:40px; text-align:center;">
+    <img src="screenshots/dashboard_menu_kpis.png"
+         alt="Menu du tableau de bord"
+         style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+    <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+      Menu Tableau de bord : Cockpit Audits, Taux de conformit&#233;, Anomalies par gravit&#233;, Anomalies ouvertes/r&#233;solues, Suivi des d&#233;lais.
+    </p>
+  </div>
+
+
+  <div style="margin-bottom:40px; text-align:center;">
+    <img src="screenshots/anomalies_tab_audit.png"
+         alt="Onglet Anomalies d'un audit"
+         style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+    <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+      Onglet &#171; Anomalies &#187; d'un audit : toutes les anomalies d&#233;tect&#233;es, avec leur gravit&#233; et leur statut.
+    </p>
+  </div>
+
+
+  <div style="margin-bottom:40px; text-align:center;">
+    <img src="screenshots/actions_tab_audit.png"
+         alt="Onglet Actions d'un audit"
+         style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+    <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+      Onglet &#171; Actions / Mesures correctives &#187; d'un audit : les plans d'action li&#233;s &#224; chaque anomalie.
+    </p>
+  </div>
+
+
+  <div style="margin-bottom:60px; text-align:center;">
+    <img src="screenshots/points_a_auditer_catalogue.png"
+         alt="Catalogue des points &#224; auditer"
+         style="width:100%; max-width:950px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 3px 14px rgba(0,0,0,0.10);"/>
+
+    <p style="font-size:13px; color:#888; margin-top:10px; font-style:italic;">
+      Catalogue r&#233;utilisable des points &#224; auditer, class&#233;s par type d'audit et par service.
+    </p>
+  </div>
+
+
+  <!-- COMPATIBILITY -->
+  <div style="background:#f7f9fc; border-radius:10px; padding:30px; margin-bottom:50px; border:1px solid #e6ebf2;">
+
+    <h2 style="font-size:20px; color:#1B3B6F; margin-top:0; margin-bottom:16px; text-align:center;">
+      Compatibilit&#233; et d&#233;pendances
+    </h2>
+
+    <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; text-align:center;">
+
+      <div style="min-width:150px;">
+        <strong>Version Odoo</strong><br/>
+        <span style="color:#555;">18.0</span>
+      </div>
+
+      <div style="min-width:150px;">
+        <strong>Modules requis</strong><br/>
+        <span style="color:#555;">Base, Discuss, Employ&#233;s (hr), Web</span>
+      </div>
+
+      <div style="min-width:150px;">
+        <strong>&#201;dition</strong><br/>
+        <span style="color:#555;">Community et Enterprise</span>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- SUPPORT / AUTHOR -->
+  <div style="text-align:center; padding:30px; border-top:2px solid #eee;">
+
+    <h2 style="font-size:20px; color:#1B3B6F; margin-bottom:10px;">
+      Support et auteur
+    </h2>
+
+    <p style="color:#555; font-size:15px; margin:4px 0;">
+      <strong>Auteur :</strong> Kambeu Henang Ange Duval
+    </p>
+
+    <p style="color:#555; font-size:15px; margin:4px 0;">
+      <strong>Support :</strong>
+      <a href="mailto:duvalkambeu61@gmail.com">
+        duvalkambeu61@gmail.com
+      </a>
+    </p>
+
+    <p style="color:#888; font-size:13px; margin-top:16px;">
+      Une question, un bug, une demande d'&#233;volution ?
+      Contactez-nous, nous r&#233;pondons rapidement.
+    </p>
+
+  </div>
+
 </section>
