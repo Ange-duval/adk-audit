@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_audit_session" model="ir.actions.report">
+        <field name="name">Rapport d'Audit</field>
+        <field name="model">audit.session</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">adk_audit.report_audit_session</field>
+        <field name="report_file">adk_audit.report_audit_session</field>
+        <field name="print_report_name">'Rapport_Audit_%s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_audit_session"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_audit_session_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.env.user.lang)"/>
+            <div class="page" style="font-family: 'Helvetica Neue', Arial, sans-serif;">
+
+                <!-- ===== EN-TETE ===== -->
+                <div class="text-center mb-4" style="border-bottom: 3px solid #2c5f7c; padding-bottom: 12px;">
+                    <h2 style="color:#2c5f7c; margin-bottom:4px;">Rapport d'Audit</h2>
+                    <h4 t-field="o.title"/>
+                    <span class="badge" style="background:#2c5f7c; color:white; padding:4px 10px; border-radius:10px;">
+                        <t t-if="o.audit_type == 'metier'">AUDIT MÉTIER</t>
+                        <t t-else="">AUDIT QHSE</t>
+                    </span>
+                </div>
+
+                <!-- ===== INFOS GENERALES ===== -->
+                <table class="table table-sm" style="margin-top:16px;">
+                    <tr>
+                        <td><strong>Référence</strong></td>
+                        <td><span t-field="o.name"/></td>
+                        <td><strong>Date</strong></td>
+                        <td><span t-field="o.date"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Entreprise auditée</strong></td>
+                        <td><span t-field="o.company_audited_id.name"/></td>
+                        <td><strong>Service</strong></td>
+                        <td><span t-field="o.department_id.name"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Site / Localisation</strong></td>
+                        <td><span t-field="o.location_id.name"/></td>
+                        <td><strong>Statut</strong></td>
+                        <td><span t-field="o.state"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Auditeur(s)</strong></td>
+                        <td colspan="3">
+                            <span t-esc="', '.join(o.auditor_ids.mapped('name'))"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- ===== SYNTHESE GRAPHIQUE (CHIFFRES CLES) ===== -->
+                <h4 class="mt-4" style="color:#2c5f7c;">Synthèse</h4>
+                <div class="row text-center" style="margin-top:8px;">
+                    <div class="col-3" style="border:1px solid #ddd; padding:10px; border-radius:6px;">
+                        <div style="font-size:22px; font-weight:bold; color:#2c5f7c;">
+                            <span t-esc="round(o.conformity_rate, 1)"/>%
+                        </div>
+                        <div>Taux de conformité</div>
+                    </div>
+                    <div class="col-3" style="border:1px solid #ddd; padding:10px; border-radius:6px;">
+                        <div style="font-size:22px; font-weight:bold;">
+                            <span t-esc="o.line_count"/>
+                        </div>
+                        <div>Points contrôlés</div>
+                    </div>
+                    <div class="col-3" style="border:1px solid #ddd; padding:10px; border-radius:6px;">
+                        <div style="font-size:22px; font-weight:bold; color:#c0392b;">
+                            <span t-esc="o.anomaly_count"/>
+                        </div>
+                        <div>Anomalies détectées</div>
+                    </div>
+                    <div class="col-3" style="border:1px solid #ddd; padding:10px; border-radius:6px;">
+                        <div style="font-size:22px; font-weight:bold; color:#e67e22;">
+                            <span t-esc="o.action_late_count"/>
+                        </div>
+                        <div>Actions en retard</div>
+                    </div>
+                </div>
+
+                <!-- ===== POINTS NON CONFORMES ===== -->
+                <h4 class="mt-4" style="color:#2c5f7c;">Points Non-Conformes</h4>
+                <table class="table table-sm table-bordered">
+                    <thead style="background:#f2f2f2;">
+                        <tr>
+                            <th>Point / Document</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.line_ids.filtered(lambda l: l.state == 'non_conforme')" t-as="line">
+                            <tr>
+                                <td><span t-field="line.name"/></td>
+                                <td><span t-field="line.description"/></td>
+                                <td>Non-conforme</td>
+                            </tr>
+                        </t>
+                        <tr t-if="not o.line_ids.filtered(lambda l: l.state == 'non_conforme')">
+                            <td colspan="3" class="text-center text-muted">Aucun point non-conforme</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- ===== ANOMALIES + PHOTOS ===== -->
+                <h4 class="mt-4" style="color:#2c5f7c;">Anomalies Détectées</h4>
+                <t t-foreach="o.anomaly_ids" t-as="anomaly">
+                    <div style="border:1px solid #ddd; border-radius:6px; padding:10px; margin-bottom:10px; page-break-inside: avoid;">
+                        <strong t-field="anomaly.name"/>
+                        <span t-if="anomaly.severity == 'critical'" class="badge" style="margin-left:8px; padding:2px 8px; border-radius:8px; background:#c0392b; color:white;">
+                            <span t-field="anomaly.severity"/>
+                        </span>
+                        <span t-elif="anomaly.severity == 'medium'" class="badge" style="margin-left:8px; padding:2px 8px; border-radius:8px; background:#e67e22; color:white;">
+                            <span t-field="anomaly.severity"/>
+                        </span>
+                        <span t-else="" class="badge" style="margin-left:8px; padding:2px 8px; border-radius:8px; background:#3498db; color:white;">
+                            <span t-field="anomaly.severity"/>
+                        </span>
+                        <p t-field="anomaly.description" style="margin-top:6px;"/>
+                        <div><strong>Personne concernée : </strong><span t-field="anomaly.responsible_id.name"/></div>
+                        <div><strong>Date de détection : </strong><span t-field="anomaly.date_detected"/></div>
+                        <div><strong>Statut : </strong><span t-field="anomaly.state"/></div>
+                        <div t-if="anomaly.image_ids" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:6px;">
+                            <t t-foreach="anomaly.image_ids" t-as="img">
+                                <img t-if="img.image" t-att-src="image_data_uri(img.image)"
+                                     style="width:140px; height:100px; object-fit:cover; border-radius:4px; border:1px solid #ddd;"/>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                <p t-if="not o.anomaly_ids" class="text-muted">Aucune anomalie détectée durant cet audit.</p>
+
+                <!-- ===== ACTIONS CORRECTIVES ===== -->
+                <h4 class="mt-4" style="color:#2c5f7c;">Plan d'Actions Correctives</h4>
+                <table class="table table-sm table-bordered">
+                    <thead style="background:#f2f2f2;">
+                        <tr>
+                            <th>Action</th>
+                            <th>Responsable</th>
+                            <th>Date limite</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.action_ids" t-as="action">
+                            <tr>
+                                <td><span t-field="action.name"/></td>
+                                <td><span t-field="action.responsible_id.name"/></td>
+                                <td><span t-field="action.deadline"/></td>
+                                <td><span t-field="action.state"/></td>
+                            </tr>
+                        </t>
+                        <tr t-if="not o.action_ids">
+                            <td colspan="4" class="text-center text-muted">Aucune action enregistrée</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- ===== SYNTHESE / NOTES ===== -->
+                <t t-if="o.notes">
+                    <h4 class="mt-4" style="color:#2c5f7c;">Notes / Synthèse de l'auditeur</h4>
+                    <div t-field="o.notes"/>
+                </t>
+
+            </div>
+        </t>
+    </template>
+
+    <template id="report_audit_session">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="adk_audit.report_audit_session_document" t-lang="o.env.user.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

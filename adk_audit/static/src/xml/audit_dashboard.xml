@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="adk_audit.Dashboard">
+  <div class="adk_dash">
+    <div class="adk_dash_inner">
+
+      <!-- ===== En-tête ===== -->
+      <header class="adk_head">
+        <div>
+          <h1 class="adk_title">Tableau de bord</h1>
+          <p class="adk_sub">Vue d'ensemble de tout le travail d'audit réalisé<t t-if="state.data"> · mis à jour le <t t-esc="state.data.today"/></t></p>
+        </div>
+        <div class="adk_filters">
+          <div class="adk_pills">
+            <t t-foreach="types" t-as="t" t-key="t.key">
+              <button type="button" t-attf-class="adk_pill {{ state.type === t.key ? 'on' : '' }}" t-on-click="() => this.setType(t.key)"><t t-esc="t.label"/></button>
+            </t>
+          </div>
+          <div class="adk_pills">
+            <t t-foreach="periods" t-as="p" t-key="p.key">
+              <button type="button" t-attf-class="adk_pill {{ state.period === p.key ? 'on' : '' }}" t-on-click="() => this.setPeriod(p.key)"><t t-esc="p.label"/></button>
+            </t>
+          </div>
+        </div>
+      </header>
+
+      <t t-if="state.data">
+        <t t-set="k" t-value="state.data.kpis"/>
+
+        <!-- ===== Indicateurs clés ===== -->
+        <section class="adk_kpis">
+          <div class="adk_kpi adk_hero">
+            <svg viewBox="0 0 130 130" class="adk_ring">
+              <circle cx="65" cy="65" r="54" class="adk_ring_bg"/>
+              <circle cx="65" cy="65" r="54" class="adk_ring_fg" t-att-stroke-dasharray="ringDash" transform="rotate(-90 65 65)"/>
+              <text x="65" y="70" text-anchor="middle" class="adk_ring_txt"><t t-esc="k.conformity"/>%</text>
+            </svg>
+            <div>
+              <div class="adk_kpi_label">Taux de conformité moyen</div>
+              <div class="adk_kpi_note"><t t-esc="k.lines_checked"/> points contrôlés</div>
+            </div>
+          </div>
+          <div class="adk_kpi adk_click" t-on-click="() => this.openAudits([], 'Tous les audits')">
+            <div class="adk_kpi_icon" style="background:#efe8f6;color:#8f73a3;"><i class="fa fa-clipboard"/></div>
+            <div class="adk_kpi_val"><t t-esc="k.sessions_total"/></div>
+            <div class="adk_kpi_label">Audits</div>
+            <div class="adk_kpi_note"><t t-esc="k.sessions_in_progress"/> en cours · <t t-esc="k.sessions_closed"/> clôturés</div>
+          </div>
+          <div class="adk_kpi adk_click" t-on-click="() => this.openAnomalies([['state','!=','resolved']], 'Anomalies ouvertes')">
+            <div class="adk_kpi_icon" style="background:#fdeeea;color:#e08a7a;"><i class="fa fa-exclamation-triangle"/></div>
+            <div class="adk_kpi_val"><t t-esc="k.anomalies_open"/></div>
+            <div class="adk_kpi_label">Anomalies ouvertes</div>
+            <div class="adk_kpi_note"><t t-esc="k.anomalies_critical"/> critiques · <t t-esc="k.resolution_rate"/>% résolues</div>
+          </div>
+          <div class="adk_kpi adk_click" t-on-click="() => this.openActions([], 'Actions / Mesures')">
+            <div class="adk_kpi_icon" style="background:#e8f5ee;color:#5fae88;"><i class="fa fa-check-circle"/></div>
+            <div class="adk_kpi_val"><t t-esc="k.actions_rate"/>%</div>
+            <div class="adk_kpi_label">Actions réalisées</div>
+            <div class="adk_kpi_note"><t t-esc="k.actions_done"/> sur <t t-esc="k.actions_total"/></div>
+          </div>
+          <div class="adk_kpi adk_click" t-on-click="() => this.openActions([['is_late','=',true]], 'Actions en retard')">
+            <div class="adk_kpi_icon" style="background:#fff3e6;color:#e5a463;"><i class="fa fa-clock-o"/></div>
+            <div class="adk_kpi_val"><t t-esc="k.actions_late"/></div>
+            <div class="adk_kpi_label">Actions en retard</div>
+            <div class="adk_kpi_note">échéance dépassée</div>
+          </div>
+        </section>
+
+        <!-- ===== Évolution + services ===== -->
+        <section class="adk_grid adk_g2">
+          <div class="adk_card">
+            <h3 class="adk_card_t">Évolution sur 6 mois</h3>
+            <p class="adk_card_s">Audits réalisés (barres) et conformité moyenne (courbe)</p>
+            <t t-set="c" t-value="chart"/>
+            <svg t-att-viewBox="'0 0 ' + c.W + ' ' + c.H" class="adk_chart">
+              <t t-foreach="c.grid" t-as="g" t-key="g.v">
+                <line t-att-x1="c.padL" t-att-x2="c.W - 12" t-att-y1="g.y" t-att-y2="g.y" class="adk_grid_line"/>
+                <text t-att-x="c.padL - 8" t-att-y="g.y + 4" text-anchor="end" class="adk_axis"><t t-esc="g.v"/>%</text>
+              </t>
+              <t t-foreach="c.bars" t-as="b" t-key="b_index">
+                <rect t-att-x="b.x" t-att-y="b.y" t-att-width="b.w" t-att-height="b.h" rx="8" class="adk_bar"/>
+                <text t-att-x="b.cx" t-att-y="c.H - 12" text-anchor="middle" class="adk_axis"><t t-esc="b.label"/></text>
+                <text t-if="b.value" t-att-x="b.cx" t-att-y="b.y - 6" text-anchor="middle" class="adk_val"><t t-esc="b.value"/></text>
+              </t>
+              <polyline t-if="c.drawn.length > 1" t-att-points="c.line" class="adk_line"/>
+              <t t-foreach="c.drawn" t-as="p" t-key="p_index">
+                <circle t-att-cx="p.x" t-att-cy="p.y" r="5" class="adk_dot"/>
+              </t>
+            </svg>
+            <div class="adk_legend">
+              <span><i style="background:#d9cbe6"/> Audits</span>
+              <span><i style="background:#7cc6a4"/> Conformité moyenne</span>
+            </div>
+          </div>
+
+          <div class="adk_card">
+            <h3 class="adk_card_t">Conformité par service</h3>
+            <p class="adk_card_s">Moyenne des audits démarrés ou clôturés</p>
+            <t t-if="state.data.by_service.length">
+              <div class="adk_rows">
+                <t t-foreach="state.data.by_service" t-as="s" t-key="s.name">
+                  <div class="adk_row">
+                    <div class="adk_row_h"><span><t t-esc="s.name"/></span><b><t t-esc="s.rate"/>%</b></div>
+                    <div class="adk_track"><div class="adk_fill" t-att-style="'width:' + s.rate + '%;background:' + barColor(s.rate)"/></div>
+                    <div class="adk_row_n"><t t-esc="s.count"/> audit<t t-if="s.count > 1">s</t></div>
+                  </div>
+                </t>
+              </div>
+            </t>
+            <div t-else="" class="adk_empty">Aucune donnée sur la période.</div>
+          </div>
+        </section>
+
+        <!-- ===== 3 répartitions ===== -->
+        <section class="adk_grid adk_g3">
+          <div class="adk_card adk_click" t-on-click="() => this.openAnomalies([], 'Anomalies')">
+            <h3 class="adk_card_t">Anomalies par gravité</h3>
+            <div class="adk_donut_wrap">
+              <svg viewBox="0 0 130 130" class="adk_donut">
+                <circle cx="65" cy="65" r="54" class="adk_ring_bg"/>
+                <t t-foreach="severityDonut" t-as="d" t-key="d.key">
+                  <circle t-if="d.value" cx="65" cy="65" r="54" class="adk_seg" t-att-stroke="d.color" t-att-stroke-dasharray="d.dash" t-att-stroke-dashoffset="d.offset" transform="rotate(-90 65 65)"/>
+                </t>
+                <text x="65" y="63" text-anchor="middle" class="adk_dn"><t t-esc="severityTotal"/></text>
+                <text x="65" y="80" text-anchor="middle" class="adk_dl">anomalies</text>
+              </svg>
+              <ul class="adk_ul">
+                <t t-foreach="severityDonut" t-as="d" t-key="d.key">
+                  <li><i t-att-style="'background:' + d.color"/><span><t t-esc="d.label"/></span><b><t t-esc="d.value"/></b></li>
+                </t>
+              </ul>
+            </div>
+          </div>
+          <div class="adk_card adk_click" t-on-click="() => this.openAnomalies([], 'Anomalies')">
+            <h3 class="adk_card_t">Traitement des anomalies</h3>
+            <div class="adk_donut_wrap">
+              <svg viewBox="0 0 130 130" class="adk_donut">
+                <circle cx="65" cy="65" r="54" class="adk_ring_bg"/>
+                <t t-foreach="anomalyDonut" t-as="d" t-key="d.key">
+                  <circle t-if="d.value" cx="65" cy="65" r="54" class="adk_seg" t-att-stroke="d.color" t-att-stroke-dasharray="d.dash" t-att-stroke-dashoffset="d.offset" transform="rotate(-90 65 65)"/>
+                </t>
+                <text x="65" y="63" text-anchor="middle" class="adk_dn"><t t-esc="k.resolution_rate"/>%</text>
+                <text x="65" y="80" text-anchor="middle" class="adk_dl">résolues</text>
+              </svg>
+              <ul class="adk_ul">
+                <t t-foreach="anomalyDonut" t-as="d" t-key="d.key">
+                  <li><i t-att-style="'background:' + d.color"/><span><t t-esc="d.label"/></span><b><t t-esc="d.value"/></b></li>
+                </t>
+              </ul>
+            </div>
+          </div>
+          <div class="adk_card adk_click" t-on-click="() => this.openActions([], 'Actions / Mesures')">
+            <h3 class="adk_card_t">Plan d'actions</h3>
+            <div class="adk_donut_wrap">
+              <svg viewBox="0 0 130 130" class="adk_donut">
+                <circle cx="65" cy="65" r="54" class="adk_ring_bg"/>
+                <t t-foreach="actionDonut" t-as="d" t-key="d.key">
+                  <circle t-if="d.value" cx="65" cy="65" r="54" class="adk_seg" t-att-stroke="d.color" t-att-stroke-dasharray="d.dash" t-att-stroke-dashoffset="d.offset" transform="rotate(-90 65 65)"/>
+                </t>
+                <text x="65" y="63" text-anchor="middle" class="adk_dn"><t t-esc="k.actions_rate"/>%</text>
+                <text x="65" y="80" text-anchor="middle" class="adk_dl">réalisées</text>
+              </svg>
+              <ul class="adk_ul">
+                <t t-foreach="actionDonut" t-as="d" t-key="d.key">
+                  <li><i t-att-style="'background:' + d.color"/><span><t t-esc="d.label"/></span><b><t t-esc="d.value"/></b></li>
+                </t>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Audits en cours + Points d'attention ===== -->
+        <section class="adk_grid adk_g2">
+          <div class="adk_card">
+            <h3 class="adk_card_t">Audits en cours</h3>
+            <p class="adk_card_s">Cliquez sur un audit pour l'ouvrir</p>
+            <t t-if="state.data.in_progress.length">
+              <t t-foreach="state.data.in_progress" t-as="s" t-key="s.id">
+                <div class="adk_item adk_click" t-on-click="() => this.openRecord('audit.session', s.id)">
+                  <div class="adk_item_main">
+                    <div class="adk_item_t"><t t-esc="s.title"/></div>
+                    <div class="adk_item_s">
+                      <span class="adk_tag"><t t-esc="s.name"/></span>
+                      <t t-if="s.department"><span><t t-esc="s.department"/></span></t>
+                    </div>
+                  </div>
+                  <div class="adk_item_side">
+                    <div class="adk_mini"><div class="adk_mini_f" t-att-style="'width:' + s.rate + '%;background:' + barColor(s.rate)"/></div>
+                    <b><t t-esc="s.rate"/>%</b>
+                  </div>
+                </div>
+              </t>
+            </t>
+            <div t-else="" class="adk_empty">Aucun audit en cours.</div>
+          </div>
+
+          <div class="adk_card">
+            <h3 class="adk_card_t">Points d'attention</h3>
+            <p class="adk_card_s">Anomalies critiques ouvertes et actions à échéance</p>
+            <t t-foreach="state.data.critical" t-as="a" t-key="a.id">
+              <div class="adk_item adk_click" t-on-click="() => this.openRecord('audit.anomaly', a.id)">
+                <div class="adk_dot_c" style="background:#ee9a9a;"/>
+                <div class="adk_item_main">
+                  <div class="adk_item_t"><t t-esc="a.name"/></div>
+                  <div class="adk_item_s"><span class="adk_tag"><t t-esc="a.audit"/></span><span><t t-esc="a.who"/></span></div>
+                </div>
+                <div class="adk_chip adk_chip_r">Critique</div>
+              </div>
+            </t>
+            <t t-foreach="state.data.urgent" t-as="u" t-key="u.id">
+              <div class="adk_item adk_click" t-on-click="() => this.openRecord('audit.action', u.id)">
+                <div class="adk_dot_c" t-att-style="'background:' + (u.late ? '#f2c48c' : '#8ec1e6')"/>
+                <div class="adk_item_main">
+                  <div class="adk_item_t"><t t-esc="u.name"/></div>
+                  <div class="adk_item_s"><span><t t-esc="u.who"/></span><span t-if="u.deadline">Échéance <t t-esc="u.deadline"/></span></div>
+                </div>
+                <div t-att-class="'adk_chip ' + (u.late ? 'adk_chip_o' : 'adk_chip_b')"><t t-if="u.late">En retard</t><t t-else="">À venir</t></div>
+              </div>
+            </t>
+            <div t-if="!state.data.critical.length and !state.data.urgent.length" class="adk_empty">Rien à signaler 🎉</div>
+          </div>
+        </section>
+
+        <!-- ===== Activité des auditeurs ===== -->
+        <section class="adk_card adk_wide">
+          <h3 class="adk_card_t">Travail réalisé par auditeur</h3>
+          <p class="adk_card_s">Audits menés, points contrôlés, anomalies détectées et conformité moyenne</p>
+          <div class="adk_table">
+            <div class="adk_tr adk_th">
+              <div>Auditeur</div><div>Audits</div><div>Clôturés</div><div>Points contrôlés</div><div>Anomalies</div><div>Conformité</div>
+            </div>
+            <t t-foreach="state.data.auditors" t-as="u" t-key="u.name">
+              <div class="adk_tr">
+                <div class="adk_who"><span class="adk_avatar"><t t-esc="initials(u.name)"/></span><t t-esc="u.name"/></div>
+                <div><t t-esc="u.audits"/></div>
+                <div><t t-esc="u.closed"/></div>
+                <div><t t-esc="u.points"/></div>
+                <div><t t-esc="u.anomalies"/></div>
+                <div class="adk_rate_cell">
+                  <div class="adk_mini"><div class="adk_mini_f" t-att-style="'width:' + u.conformity + '%;background:' + barColor(u.conformity)"/></div>
+                  <b><t t-esc="u.conformity"/>%</b>
+                </div>
+              </div>
+            </t>
+            <div t-if="!state.data.auditors.length" class="adk_empty">Aucune activité sur la période.</div>
+          </div>
+        </section>
+
+        <div class="adk_foot">ADK-AUDIT · tableau de bord en temps réel</div>
+      </t>
+      <div t-else="" class="adk_empty">Chargement…</div>
+    </div>
+  </div>
+</t>
+
+</templates>

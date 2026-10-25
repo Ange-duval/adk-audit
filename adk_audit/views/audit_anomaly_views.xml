@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_audit_anomaly_list" model="ir.ui.view">
+        <field name="name">audit.anomaly.list</field>
+        <field name="model">audit.anomaly</field>
+        <field name="arch" type="xml">
+            <list string="Anomalies" decoration-danger="severity == 'critical'"
+                  decoration-warning="severity == 'medium'">
+                <field name="name"/>
+                <field name="session_id"/>
+                <field name="department_id" optional="show"/>
+                <field name="location_id" optional="show"/>
+                <field name="severity" widget="badge"
+                       decoration-danger="severity == 'critical'"
+                       decoration-warning="severity == 'medium'"
+                       decoration-info="severity == 'low'"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'resolved'"
+                       decoration-danger="state == 'open'"/>
+                <field name="responsible_id"/>
+                <field name="date_detected"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_audit_anomaly_kanban" model="ir.ui.view">
+        <field name="name">audit.anomaly.kanban</field>
+        <field name="model">audit.anomaly</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="severity" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="severity"/>
+                <field name="state"/>
+                <field name="thumbnail"/>
+                <field name="image_count"/>
+                <field name="responsible_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click p-2">
+                            <strong><field name="name"/></strong>
+                            <div>
+                                <field name="session_id"/>
+                            </div>
+                            <div>
+                                <field name="state" widget="badge"/>
+                            </div>
+                            <div t-if="record.responsible_id.raw_value">
+                                <i class="fa fa-user"/> <field name="responsible_id"/>
+                            </div>
+                            <field name="thumbnail" widget="image" t-if="record.thumbnail.raw_value"
+                                   options="{'size': [0, 80]}" class="mt-1"/>
+                            <div t-if="record.image_count.raw_value > 1" class="text-muted small">
+                                <i class="fa fa-camera"/> <t t-esc="record.image_count.raw_value"/> photos
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_audit_anomaly_form" model="ir.ui.view">
+        <field name="name">audit.anomaly.form</field>
+        <field name="model">audit.anomaly</field>
+        <field name="arch" type="xml">
+            <form string="Anomalie">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="open,in_progress,resolved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_actions" type="object" class="oe_stat_button" icon="fa-tasks">
+                            <field name="action_count" widget="statinfo" string="Mesures"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="session_id"/>
+                            <field name="line_id" domain="[('session_id', '=', session_id)]"/>
+                            <field name="department_id"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="severity"/>
+                            <field name="responsible_id"/>
+                            <field name="date_detected"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <group string="Photos / Preuves">
+                        <field name="image_ids" nolabel="1" mode="kanban">
+                            <kanban>
+                                <field name="image"/>
+                                <field name="name"/>
+                                <templates>
+                                    <t t-name="card">
+                                        <div class="oe_kanban_global_click text-center p-1">
+                                            <field name="image" widget="image" options="{'size': [0, 120]}"/>
+                                            <div class="text-muted small"><field name="name"/></div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </group>
+                    <notebook>
+                        <page string="Mesures prises">
+                            <field name="action_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="responsible_id"/>
+                                    <field name="deadline"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_audit_anomaly" model="ir.actions.act_window">
+        <field name="name">Anomalies</field>
+        <field name="res_model">audit.anomaly</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+
+    <record id="view_audit_anomaly_search" model="ir.ui.view">
+        <field name="name">audit.anomaly.search</field>
+        <field name="model">audit.anomaly</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Anomalies">
+                <field name="name"/>
+                <field name="session_id"/>
+                <field name="responsible_id"/>
+                <field name="department_id"/>
+                <filter string="Ouvertes" name="open" domain="[('state', 'in', ('open','in_progress'))]"/>
+                <filter string="Résolues" name="resolved" domain="[('state', '=', 'resolved')]"/>
+                <separator/>
+                <filter string="Critique" name="critical" domain="[('severity', '=', 'critical')]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Gravité" name="group_severity" context="{'group_by': 'severity'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Audit" name="group_session" context="{'group_by': 'session_id'}"/>
+                    <filter string="Service" name="group_department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- ===================== CATEGORIE ===================== -->
+        <record id="module_category_adk_audit" model="ir.module.category">
+            <field name="name">ADK-AUDIT</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- ===================== GROUPES ===================== -->
+        <record id="group_audit_audited" model="res.groups">
+            <field name="name">Audité (Responsable Service)</field>
+            <field name="category_id" ref="module_category_adk_audit"/>
+            <field name="comment">Accès en lecture seule aux anomalies et mesures qui le concernent.</field>
+        </record>
+
+        <record id="group_audit_metier" model="res.groups">
+            <field name="name">Auditeur Métier</field>
+            <field name="category_id" ref="module_category_adk_audit"/>
+            <field name="comment">Voit uniquement les audits de type Métier (Finance / Gestion). Pas d'accès QHSE.</field>
+        </record>
+
+        <record id="group_audit_qhse" model="res.groups">
+            <field name="name">Agent / Responsable QHSE</field>
+            <field name="category_id" ref="module_category_adk_audit"/>
+            <field name="comment">Voit uniquement les audits de type QHSE. Pas d'accès Métier.</field>
+        </record>
+
+        <record id="group_audit_admin" model="res.groups">
+            <field name="name">Administrateur Audit</field>
+            <field name="category_id" ref="module_category_adk_audit"/>
+            <field name="comment">Accès total : configuration, Métier, QHSE, Dashboards.</field>
+            <field name="implied_ids" eval="[(4, ref('group_audit_metier')), (4, ref('group_audit_qhse'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- ===================== REGLES : audit.session ===================== -->
+        <record id="rule_audit_session_admin_all" model="ir.rule">
+            <field name="name">Audit Session: Admin - accès total</field>
+            <field name="model_id" ref="model_audit_session"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_admin'))]"/>
+        </record>
+
+        <record id="rule_audit_session_metier" model="ir.rule">
+            <field name="name">Audit Session: Auditeur Métier</field>
+            <field name="model_id" ref="model_audit_session"/>
+            <field name="domain_force">[('audit_type', '=', 'metier')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_metier'))]"/>
+        </record>
+
+        <record id="rule_audit_session_qhse" model="ir.rule">
+            <field name="name">Audit Session: Agent QHSE</field>
+            <field name="model_id" ref="model_audit_session"/>
+            <field name="domain_force">[('audit_type', '=', 'qhse')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_qhse'))]"/>
+        </record>
+
+        <!-- ===================== REGLES : audit.line ===================== -->
+        <record id="rule_audit_line_admin_all" model="ir.rule">
+            <field name="name">Audit Line: Admin - accès total</field>
+            <field name="model_id" ref="model_audit_line"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_admin'))]"/>
+        </record>
+
+        <record id="rule_audit_line_metier" model="ir.rule">
+            <field name="name">Audit Line: Auditeur Métier</field>
+            <field name="model_id" ref="model_audit_line"/>
+            <field name="domain_force">[('session_id.audit_type', '=', 'metier')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_metier'))]"/>
+        </record>
+
+        <record id="rule_audit_line_qhse" model="ir.rule">
+            <field name="name">Audit Line: Agent QHSE</field>
+            <field name="model_id" ref="model_audit_line"/>
+            <field name="domain_force">[('session_id.audit_type', '=', 'qhse')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_qhse'))]"/>
+        </record>
+
+        <!-- ===================== REGLES : audit.anomaly ===================== -->
+        <record id="rule_audit_anomaly_admin_all" model="ir.rule">
+            <field name="name">Audit Anomaly: Admin - accès total</field>
+            <field name="model_id" ref="model_audit_anomaly"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_admin'))]"/>
+        </record>
+
+        <record id="rule_audit_anomaly_metier" model="ir.rule">
+            <field name="name">Audit Anomaly: Auditeur Métier</field>
+            <field name="model_id" ref="model_audit_anomaly"/>
+            <field name="domain_force">[('session_id.audit_type', '=', 'metier')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_metier'))]"/>
+        </record>
+
+        <record id="rule_audit_anomaly_qhse" model="ir.rule">
+            <field name="name">Audit Anomaly: Agent QHSE</field>
+            <field name="model_id" ref="model_audit_anomaly"/>
+            <field name="domain_force">[('session_id.audit_type', '=', 'qhse')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_qhse'))]"/>
+        </record>
+
+        <record id="rule_audit_anomaly_audited" model="ir.rule">
+            <field name="name">Audit Anomaly: Audité - lecture seule sur ses anomalies</field>
+            <field name="model_id" ref="model_audit_anomaly"/>
+            <field name="domain_force">[('responsible_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_audited'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- ===================== REGLES : audit.action ===================== -->
+        <record id="rule_audit_action_admin_all" model="ir.rule">
+            <field name="name">Audit Action: Admin - accès total</field>
+            <field name="model_id" ref="model_audit_action"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_admin'))]"/>
+        </record>
+
+        <record id="rule_audit_action_metier" model="ir.rule">
+            <field name="name">Audit Action: Auditeur Métier</field>
+            <field name="model_id" ref="model_audit_action"/>
+            <field name="domain_force">[('session_id.audit_type', '=', 'metier')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_metier'))]"/>
+        </record>
+
+        <record id="rule_audit_action_qhse" model="ir.rule">
+            <field name="name">Audit Action: Agent QHSE</field>
+            <field name="model_id" ref="model_audit_action"/>
+            <field name="domain_force">[('session_id.audit_type', '=', 'qhse')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_qhse'))]"/>
+        </record>
+
+        <record id="rule_audit_action_audited" model="ir.rule">
+            <field name="name">Audit Action: Audité - lecture seule sur ses mesures</field>
+            <field name="model_id" ref="model_audit_action"/>
+            <field name="domain_force">[('responsible_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_audited'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!-- ===================== REGLES : audit.checklist.item ===================== -->
+        <record id="rule_audit_checklist_admin_all" model="ir.rule">
+            <field name="name">Checklist Item: Admin - accès total</field>
+            <field name="model_id" ref="model_audit_checklist_item"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_admin'))]"/>
+        </record>
+
+        <record id="rule_audit_checklist_metier" model="ir.rule">
+            <field name="name">Checklist Item: Auditeur Métier</field>
+            <field name="model_id" ref="model_audit_checklist_item"/>
+            <field name="domain_force">[('audit_type', '=', 'metier')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_metier'))]"/>
+        </record>
+
+        <record id="rule_audit_checklist_qhse" model="ir.rule">
+            <field name="name">Checklist Item: Agent QHSE</field>
+            <field name="model_id" ref="model_audit_checklist_item"/>
+            <field name="domain_force">[('audit_type', '=', 'qhse')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_qhse'))]"/>
+        </record>
+
+        <!-- ===================== REGLES : audit.anomaly.image ===================== -->
+        <record id="rule_audit_anomaly_image_admin_all" model="ir.rule">
+            <field name="name">Anomaly Image: Admin - accès total</field>
+            <field name="model_id" ref="model_audit_anomaly_image"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_admin'))]"/>
+        </record>
+
+        <record id="rule_audit_anomaly_image_metier" model="ir.rule">
+            <field name="name">Anomaly Image: Auditeur Métier</field>
+            <field name="model_id" ref="model_audit_anomaly_image"/>
+            <field name="domain_force">[('anomaly_id.session_id.audit_type', '=', 'metier')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_metier'))]"/>
+        </record>
+
+        <record id="rule_audit_anomaly_image_qhse" model="ir.rule">
+            <field name="name">Anomaly Image: Agent QHSE</field>
+            <field name="model_id" ref="model_audit_anomaly_image"/>
+            <field name="domain_force">[('anomaly_id.session_id.audit_type', '=', 'qhse')]</field>
+            <field name="groups" eval="[(4, ref('group_audit_qhse'))]"/>
+        </record>
+
+        <record id="rule_audit_anomaly_image_audited" model="ir.rule">
+            <field name="name">Anomaly Image: Audité - lecture seule</field>
+            <field name="model_id" ref="model_audit_anomaly_image"/>
+            <field name="domain_force">[('anomaly_id.responsible_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_audit_audited'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+    </data>
+</odoo>

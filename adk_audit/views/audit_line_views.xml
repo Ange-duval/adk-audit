@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_audit_line_list" model="ir.ui.view">
+        <field name="name">audit.line.list</field>
+        <field name="model">audit.line</field>
+        <field name="arch" type="xml">
+            <list string="Points d'audit" editable="bottom" decoration-danger="state == 'non_conforme'"
+                  decoration-success="state == 'conforme'" decoration-muted="state == 'na'">
+                <field name="sequence" widget="handle"/>
+                <field name="template_id" optional="hide"/>
+                <field name="name"/>
+                <field name="description" optional="hide"/>
+                <field name="state"
+                       decoration-danger="state == 'non_conforme'"
+                       decoration-success="state == 'conforme'"/>
+                <field name="anomaly_count" string="Anomalies"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_audit_line_form" model="ir.ui.view">
+        <field name="name">audit.line.form</field>
+        <field name="model">audit.line</field>
+        <field name="arch" type="xml">
+            <form string="Point d'audit">
+                <sheet>
+                    <group>
+                        <field name="template_id"/>
+                        <field name="name"/>
+                        <field name="state" widget="radio" options="{'horizontal': true}"/>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page string="Anomalies liées">
+                            <field name="anomaly_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="severity" widget="badge"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="responsible_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
